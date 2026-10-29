@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kačenčin narozeninový měsíc 🎉</title>
+<meta name="description" content="30 let, 2 víkendy, nula rozumu. Kačenčin narozeninový měsíc 27. 11. – 6. 12. 2026 — Morava a Praha.">
+<meta property="og:title" content="Kačenčin narozeninový měsíc 🎉">
+<meta property="og:description" content="30 let, 2 víkendy, nula rozumu. Poslední rodeo → RIP 20's. 27. 11. – 6. 12. 2026.">
+<meta property="og:type" content="website">
+<!-- [DOPLNIT] og:image — přidej odkaz na hezký náhledový obrázek/plakátek, např.: -->
+<!-- <meta property="og:image" content="https://.../nahled.jpg"> -->
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+<style>
+  :root{
+    --hot-pink:#ff2f92;
+    --deep-pink:#c8006b;
+    --pastel-pink:#ffd6ec;
+    --light-pink:#fff0f8;
+    --gold:#ffcf3f;
+    --near-black:#241019;
+    --text-dark:#4a0d2e;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    color:var(--text-dark);
+    background:linear-gradient(180deg,var(--light-pink),#ffe3f2 40%,#ffd0ea 100%);
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:'Baloo 2',sans-serif;margin:0 0 .3em;}
+  section{padding:70px 20px;max-width:1000px;margin:0 auto;}
+  .eyebrow{
+    text-transform:uppercase;
+    letter-spacing:2px;
+    font-weight:600;
+    color:var(--deep-pink);
+    font-size:.8rem;
+  }
+
+  /* ---------- POPUP ---------- */
+  #popup-overlay{
+    position:fixed;inset:0;
+    background:radial-gradient(circle at center,#ff2f92 0%,#c8006b 70%,#7a0044 100%);
+    display:flex;align-items:center;justify-content:center;
+    z-index:9999;
+    text-align:center;
+    padding:20px;
+  }
+  #popup-box{
+    background:#fff;
+    border-radius:28px;
+    padding:48px 36px;
+    max-width:420px;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+    animation:pop .5s ease;
+  }
+  @keyframes pop{from{transform:scale(.7);opacity:0;}to{transform:scale(1);opacity:1;}}
+  #popup-box h2{
+    font-size:1.6rem;
+    color:var(--deep-pink);
+    line-height:1.3;
+  }
+  #popup-box p{color:#7a3b5a;font-size:.95rem;margin-bottom:1.5em;}
+  #consent-btn{
+    background:linear-gradient(135deg,var(--hot-pink),var(--deep-pink));
+    color:#fff;
+    border:none;
+    padding:16px 36px;
+    border-radius:50px;
+    font-family:'Baloo 2',sans-serif;
+    font-size:1.1rem;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(200,0,107,.4);
+    transition:transform .15s ease;
+  }
+  #consent-btn:hover{transform:scale(1.06);}
+  body.locked{overflow:hidden;}
+
+  #confetti-canvas{
+    position:fixed;inset:0;
+    pointer-events:none;
+    z-index:9998;
+  }
+
+  #spotify-float{
+    position:fixed;
+    bottom:22px;right:22px;
+    left:22px;
+    max-width:360px;
+    margin:0 auto;
+    background:#fff;
+    border-radius:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+    z-index:500;
+    display:none;
+    overflow:hidden;
+    transform:translateY(120%);
+    transition:transform .4s ease;
+  }
+  #spotify-float.show{display:block;transform:translateY(0);}
+  #spotify-float iframe{display:block;border:0;width:100%;}
+
+  /* ---------- STICKY NAV ---------- */
+  #site-nav{
+    position:fixed;
+    top:0;left:0;right:0;
+    background:rgba(255,255,255,.92);
+    backdrop-filter:blur(6px);
+    box-shadow:0 4px 16px rgba(200,0,107,.12);
+    display:flex;
+    gap:4px;
+    overflow-x:auto;
+    padding:10px 14px;
+    z-index:400;
+    transform:translateY(-100%);
+    transition:transform .35s ease;
+  }
+  #site-nav.show{transform:translateY(0);}
+  #site-nav a{
+    flex:0 0 auto;
+    color:var(--deep-pink);
+    text-decoration:none;
+    font-size:.82rem;
+    font-weight:600;
+    padding:8px 12px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+  #site-nav a:hover{background:var(--pastel-pink);}
+
+  /* ---------- SCROLL REVEAL ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .reveal.visible{opacity:1;transform:none;}
+
+  /* ---------- ADD TO CALENDAR ---------- */
+  .ics-btn{
+    margin-top:10px;
+    background:#fff;
+    border:2px solid var(--accent,var(--hot-pink));
+    color:var(--accent,var(--deep-pink));
+    font-weight:600;
+    font-size:.82rem;
+    padding:8px 14px;
+    border-radius:20px;
+    cursor:pointer;
+  }
+  .ics-btn:hover{background:var(--accent-soft,var(--pastel-pink));}
+
+  /* ---------- TIMELINE ŽIVOTA ---------- */
+  .timeline{
+    position:relative;
+    max-width:640px;
+    margin:0 auto;
+    padding-left:34px;
+  }
+  .timeline::before{
+    content:'';
+    position:absolute;
+    left:11px;top:6px;bottom:6px;
+    width:3px;
+    background:var(--pastel-pink);
+    border-radius:2px;
+  }
+  .timeline-item{
+    position:relative;
+    margin-bottom:30px;
+  }
+  .timeline-item::before{
+    content:'';
+    position:absolute;
+    left:-34px;top:6px;
+    width:16px;height:16px;
+    border-radius:50%;
+    background:var(--hot-pink);
+    border:3px solid #fff;
+    box-shadow:0 0 0 3px var(--pastel-pink);
+  }
+  .timeline-content{
+    background:#fff;
+    border-radius:16px;
+    padding:14px 18px;
+    box-shadow:0 10px 22px rgba(200,0,107,.12);
+  }
+  .timeline-year{
+    display:block;
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    color:var(--deep-pink);
+    font-size:1rem;
+    margin-bottom:2px;
+  }
+  .timeline-content p{margin:0;font-size:.92rem;}
+  .timeline-photos{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:12px;
+  }
+  .photo-thumb{
+    flex:0 0 auto;
+    width:60px;height:60px;
+    border-radius:12px;
+    background:linear-gradient(135deg,var(--pastel-pink),#ffbcdf);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.3rem;
+    overflow:hidden;
+  }
+  .photo-thumb img{width:100%;height:100%;object-fit:cover;cursor:zoom-in;}
+
+  /* ---------- LIGHTBOX ---------- */
+  #lightbox-overlay{
+    position:fixed;inset:0;
+    background:rgba(20,0,12,.88);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:9997;
+    padding:30px;
+    cursor:zoom-out;
+  }
+  #lightbox-overlay.show{display:flex;}
+  #lightbox-overlay img{
+    max-width:92vw;
+    max-height:88vh;
+    border-radius:14px;
+    box-shadow:0 20px 60px rgba(0,0,0,.5);
+  }
+  #lightbox-close{
+    position:fixed;
+    top:18px;right:22px;
+    background:#fff;
+    border:none;
+    width:40px;height:40px;
+    border-radius:50%;
+    font-size:1.3rem;
+    color:var(--deep-pink);
+    cursor:pointer;
+    z-index:9998;
+  }
+  .lightbox-nav{
+    position:fixed;
+    top:50%;
+    transform:translateY(-50%);
+    background:#fff;
+    border:none;
+    width:50px;height:50px;
+    border-radius:50%;
+    font-size:1.8rem;
+    line-height:1;
+    color:var(--deep-pink);
+    cursor:pointer;
+    z-index:9998;
+  }
+  #lightbox-prev{left:18px;}
+  #lightbox-next{right:18px;}
+
+  /* ---------- HERO ---------- */
+  #hero{
+    text-align:center;
+    max-width:1400px;
+    margin:0 auto;
+    padding:90px 20px 70px;
+  }
+  @media (max-width:900px){
+    #hero{
+      padding:60px 18px 50px;
+    }
+  }
+  #hero h1{
+    font-size:clamp(2.4rem,6vw,4rem);
+    color:var(--deep-pink);
+    text-shadow:2px 2px 0 var(--gold);
+  }
+  #hero .subtitle{
+    font-size:1.15rem;
+    max-width:600px;
+    margin:16px auto 6px;
+    color:#7a3b5a;
+  }
+  #hero .arc{
+    margin:18px auto 34px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    justify-content:center;
+  }
+  #hero .arc span{
+    background:#fff;
+    border:2px solid var(--pastel-pink);
+    padding:6px 16px;
+    border-radius:30px;
+    font-size:.85rem;
+    font-weight:600;
+    color:var(--deep-pink);
+  }
+  #countdown{
+    display:flex;
+    gap:16px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin:30px 0 40px;
+  }
+  #countdown .box{
+    background:#fff;
+    border-radius:18px;
+    padding:18px 20px;
+    min-width:80px;
+    box-shadow:0 10px 25px rgba(200,0,107,.15);
+  }
+  #countdown .num{
+    font-family:'Baloo 2',sans-serif;
+    font-size:2rem;
+    color:var(--hot-pink);
+    font-weight:700;
+  }
+  #countdown .label{font-size:.75rem;text-transform:uppercase;letter-spacing:1px;color:#a3577f;}
+  .cta{
+    background:linear-gradient(135deg,var(--hot-pink),var(--deep-pink));
+    color:#fff;
+    border:none;
+    padding:16px 38px;
+    border-radius:50px;
+    font-family:'Baloo 2',sans-serif;
+    font-size:1.05rem;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:0 10px 25px rgba(200,0,107,.35);
+  }
+  .hero-ctas{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    justify-content:center;
+  }
+  .whatsapp-btn{
+    display:inline-flex;
+    align-items:center;
+    background:#25D366;
+    color:#fff;
+    text-decoration:none;
+    padding:16px 30px;
+    border-radius:50px;
+    font-family:'Baloo 2',sans-serif;
+    font-size:1.05rem;
+    font-weight:600;
+    box-shadow:0 10px 25px rgba(37,211,102,.35);
+  }
+
+  /* ---------- VĚNOVÁNÍ ---------- */
+  .dedication{
+    background:#fff;
+    border-radius:24px;
+    padding:30px 28px;
+    max-width:640px;
+    margin:0 auto;
+    box-shadow:0 14px 30px rgba(200,0,107,.12);
+    border:2px dashed var(--hot-pink);
+  }
+  .dedication p{margin:0 0 12px;line-height:1.6;}
+  .dedication .sign{font-family:'Baloo 2',sans-serif;color:var(--deep-pink);font-size:1.2rem;margin:0;text-align:right;}
+
+  /* ---------- BINGO ---------- */
+  .bingo-board{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:8px;
+    max-width:620px;
+    margin:0 auto;
+  }
+  .bingo-cell{
+    background:#fff;
+    border:2px solid var(--pastel-pink);
+    border-radius:14px;
+    min-height:84px;
+    padding:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-size:.72rem;
+    line-height:1.2;
+    font-weight:500;
+    color:var(--text-dark);
+    cursor:pointer;
+    font-family:'Poppins',sans-serif;
+    transition:transform .15s ease, background .2s ease;
+  }
+  .bingo-cell:hover{transform:scale(1.04);}
+  .bingo-cell.on{
+    background:linear-gradient(135deg,var(--hot-pink),var(--deep-pink));
+    color:#fff;
+    border-color:var(--deep-pink);
+  }
+  .bingo-cell.free{background:var(--gold);border-color:var(--gold);font-weight:700;cursor:default;}
+  .bingo-cell.win{box-shadow:0 0 0 3px var(--gold);}
+  .bingo-msg{text-align:center;font-family:'Baloo 2',sans-serif;font-size:1.3rem;color:var(--deep-pink);min-height:1.6em;margin:16px 0 6px;}
+  .bingo-actions{display:flex;gap:10px;justify-content:center;}
+  @media (max-width:600px){.bingo-cell{min-height:66px;font-size:.62rem;padding:4px;}}
+
+  @keyframes bingoPop{0%{transform:scale(1)}40%{transform:scale(1.25) rotate(-4deg)}100%{transform:scale(1)}}
+  @keyframes bingoWin{0%,100%{transform:rotate(0)}25%{transform:rotate(-6deg) scale(1.1)}75%{transform:rotate(6deg) scale(1.1)}}
+  @keyframes rainbowBg{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+  @keyframes shakeAll{0%,100%{transform:translate(0)}20%{transform:translate(-6px,3px)}40%{transform:translate(6px,-3px)}60%{transform:translate(-4px,-4px)}80%{transform:translate(4px,4px)}}
+  .bingo-cell:nth-child(odd):hover{transform:scale(1.07) rotate(2deg);}
+  .bingo-cell:nth-child(even):hover{transform:scale(1.07) rotate(-2deg);}
+  .bingo-cell.on:not(.free){animation:bingoPop .35s ease;}
+  .bingo-cell.win{
+    animation:bingoWin .5s ease infinite;
+    background:linear-gradient(90deg,#ff2f92,#ffcf3f,#7cf3ff,#b36bff,#ff2f92);
+    background-size:300% 100%;
+    animation:bingoWin .5s ease infinite, rainbowBg 1.5s linear infinite;
+    color:#241019;font-weight:700;
+  }
+  body.shake{animation:shakeAll .5s ease;}
+  .emoji-rain{position:fixed;top:-40px;font-size:2rem;z-index:9996;pointer-events:none;animation:rainFall linear forwards;}
+  @keyframes rainFall{to{transform:translateY(110vh) rotate(360deg)}}
+  .bingo-counter{text-align:center;font-weight:600;color:var(--deep-pink);margin:0 0 14px;}
+  /* ---------- Z HVĚZD ---------- */
+  .stars-box{
+    max-width:640px;
+    margin:0 auto;
+    padding:34px 28px;
+    border-radius:26px;
+    background:linear-gradient(160deg,#4a0d2e,#2a0a2e);
+    color:#fff;
+    text-align:center;
+    box-shadow:0 18px 40px rgba(74,13,46,.35);
+  }
+  .stars-box h2{color:#ffd6ec;font-size:1.9rem;}
+  .stars-box h3{color:var(--gold);margin-top:26px;}
+  .stars-lead,.stars-text{color:#f6d7e8;font-size:.95rem;line-height:1.6;}
+  .stars-box .timeline-photos{justify-content:center;}
+
+  /* ---------- HARMONOGRAM ---------- */
+  #harmonogram h2, #timeline h2, #bingo h2, #mapa h2, #vzpominky h2, #vzkazy h2, #bulvar h2{
+    text-align:center;
+    font-size:2.2rem;
+    color:var(--deep-pink);
+  }
+  .section-lead{
+    text-align:center;
+    max-width:560px;
+    margin:0 auto 40px;
+    color:#7a3b5a;
+  }
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:26px;
+  }
+  .card{
+    background:#fff;
+    border-radius:24px;
+    padding:26px 24px;
+    box-shadow:0 14px 30px rgba(200,0,107,.12);
+    border-top:8px solid var(--accent,var(--hot-pink));
+    position:relative;
+    overflow:hidden;
+  }
+  .card .icon{font-size:2.2rem;}
+  .card h3{font-size:1.3rem;color:var(--text-dark);margin-top:8px;}
+  .card .motto{
+    display:inline-block;
+    background:var(--accent-soft,var(--pastel-pink));
+    color:var(--accent,var(--deep-pink));
+    font-weight:600;
+    font-size:.75rem;
+    padding:4px 12px;
+    border-radius:20px;
+    margin-bottom:10px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+  }
+  .card .meta{font-size:.9rem;color:#7a3b5a;margin:4px 0;}
+  .card .meta b{color:var(--text-dark);}
+  .card details{margin-top:12px;font-size:.88rem;}
+  .card summary{cursor:pointer;font-weight:600;color:var(--accent,var(--deep-pink));}
+  .card ul{padding-left:18px;margin:8px 0;}
+  .placeholder{color:#b5809c;font-style:italic;}
+
+  .card.morava{--accent:#b5651d;--accent-soft:#f3e0c6;}
+  .card.praha{--accent:#241019;--accent-soft:#e9d3dd;}
+  .card.spindl{--accent:#00a99d;--accent-soft:#d7f5f2;}
+
+  /* ---------- GALERIE ---------- */
+  .gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:14px;
+  }
+  .gallery-grid .photo{
+    aspect-ratio:1/1;
+    border-radius:18px;
+    background:linear-gradient(135deg,var(--pastel-pink),#ffbcdf);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.8rem;
+    color:#fff;
+    text-shadow:0 2px 6px rgba(0,0,0,.15);
+    overflow:hidden;
+  }
+  .gallery-grid .photo img{width:100%;height:100%;object-fit:cover;cursor:zoom-in;}
+
+  /* ---------- MAPA ---------- */
+  #map{
+    height:420px;
+    border-radius:24px;
+    box-shadow:0 14px 30px rgba(200,0,107,.15);
+    overflow:hidden;
+  }
+
+  /* ---------- VZPOMINKY (Padlet) ---------- */
+  .padlet-frame{
+    border:3px dashed var(--hot-pink);
+    border-radius:24px;
+    background:#fff;
+    min-height:320px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:30px;
+    color:#a3577f;
+  }
+
+  /* ---------- VZKAZY / GUESTBOOK ---------- */
+  .notes{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:22px;
+    margin-top:10px;
+  }
+  .note{
+    background:var(--gold);
+    padding:20px;
+    border-radius:6px;
+    font-size:.92rem;
+    box-shadow:0 8px 18px rgba(0,0,0,.12);
+    position:relative;
+  }
+  .note:nth-child(3n+1){background:var(--pastel-pink);transform:rotate(-2deg);}
+  .note:nth-child(3n+2){background:#ffe17a;transform:rotate(1.5deg);}
+  .note:nth-child(3n){background:#ffc2e0;transform:rotate(-1deg);}
+  .note .from{display:block;margin-top:10px;font-weight:700;color:var(--deep-pink);}
+
+  /* ---------- BULVÁR ---------- */
+  .tabloid-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:22px;
+  }
+  .tabloid-card{
+    display:block;
+    background:#fff;
+    border-radius:16px;
+    padding:20px 22px;
+    text-decoration:none;
+    color:var(--text-dark);
+    box-shadow:0 14px 30px rgba(200,0,107,.12);
+    border-left:6px solid #e01e37;
+    transition:transform .2s ease;
+  }
+  .tabloid-card:hover{transform:translateY(-4px);}
+  .tabloid-tag{
+    display:inline-block;
+    background:#e01e37;
+    color:#fff;
+    font-size:.68rem;
+    font-weight:700;
+    letter-spacing:.5px;
+    padding:3px 10px;
+    border-radius:4px;
+    margin-bottom:10px;
+  }
+  .tabloid-card h3{
+    font-family:'Poppins',sans-serif;
+    font-size:1.02rem;
+    font-weight:600;
+    margin:0 0 8px;
+    color:var(--near-black);
+  }
+  .tabloid-card p{font-size:.88rem;color:#7a3b5a;margin:0 0 10px;}
+  .tabloid-link{font-size:.85rem;font-weight:700;color:var(--deep-pink);}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    text-align:center;
+    padding:50px 20px 70px;
+    color:#7a3b5a;
+  }
+  footer .bye{
+    font-family:'Baloo 2',sans-serif;
+    font-size:1.6rem;
+    color:var(--deep-pink);
+    margin-bottom:10px;
+  }
+
+  @media (max-width:600px){
+    section{padding:50px 16px;}
+    #countdown .box{min-width:64px;padding:14px 12px;}
+    #countdown .num{font-size:1.5rem;}
+  }
+
+  /* plovoucí emoji */
+  .floaty{position:fixed;z-index:1;font-size:2.2rem;opacity:.55;pointer-events:none;animation:floaty 9s ease-in-out infinite;}
+  @media (max-width:700px){.floaty.m-hide{display:none;}.floaty{font-size:1.5rem !important;opacity:.4;}}
+  @keyframes floaty{0%,100%{transform:translateY(0) rotate(-10deg)}50%{transform:translateY(-40px) rotate(12deg)}}
+
+  /* ---------- NAHRÁVÁNÍ FOTEK ---------- */
+  .photo-box{max-width:900px;margin:0 auto;text-align:center;}
+  .photo-upload-btn{display:inline-block;background:var(--hot-pink);color:#fff;cursor:pointer;font-weight:700;font-size:1.05rem;padding:14px 32px;border-radius:40px;box-shadow:0 6px 18px rgba(255,47,146,.35);transition:transform .15s;}
+  .photo-upload-btn:hover{transform:scale(1.05);}
+  #photo-upload-status{min-height:20px;margin:12px 0 0;font-weight:600;color:var(--deep-pink);}
+  .photo-wall{margin-top:22px;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;}
+  .photo-wall img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:14px;cursor:pointer;box-shadow:0 3px 10px rgba(200,0,107,.2);background:#ffd6ec;}
+  .photo-wall .empty{grid-column:1/-1;color:var(--deep-pink);font-style:italic;}
+  .drive-gallery{width:100%;height:520px;border:3px solid #fff;border-radius:18px;margin:22px 0 14px;background:#fff;box-shadow:0 4px 14px rgba(200,0,107,.2);}
+  .refresh-btn{font-size:.9rem;padding:9px 22px;border:none;font-family:inherit;}
+</style>
+</head>
+<body class="locked">
+
+<!-- ================= POPUP ================= -->
+<div id="popup-overlay">
+  <div id="popup-box">
+    <h2>Jsi ready na to být dirty thirty? 💋</h2>
+    <p>Bez tohohle kliknutí se do párty módu prostě nedostaneš.</p>
+    <button id="consent-btn">jdu pařit</button>
+  </div>
+</div>
+<canvas id="confetti-canvas"></canvas>
+<div id="spotify-float"></div>
+
+<div id="lightbox-overlay">
+  <button id="lightbox-close" aria-label="Zavřít">✕</button>
+  <button id="lightbox-prev" class="lightbox-nav" aria-label="Předchozí fotka">‹</button>
+  <img id="lightbox-img" src="" alt="Zvětšená fotka">
+  <button id="lightbox-next" class="lightbox-nav" aria-label="Další fotka">›</button>
+</div>
+
+<nav id="site-nav">
+  <a href="#hero">Domů</a>
+  <a href="#harmonogram">Harmonogram</a>
+  <a href="#timeline">Timeline</a>
+  <a href="#bingo">Bingo</a>
+  <a href="#mapa">Mapa</a>
+  <a href="#vzpominky">Vzpomínky</a>
+  <a href="#bulvar">Bulvár</a>
+</nav>
+
+
+<span class="floaty" style="top:3%;left:4%;animation-delay:-4s;font-size:1.8rem">🍷</span><span class="floaty m-hide" style="top:8%;right:7%;animation-delay:-7s;font-size:2.2rem">💋</span><span class="floaty m-hide" style="top:13%;left:2%;animation-delay:-1s;font-size:1.8rem">🤠</span><span class="floaty" style="top:17%;right:7%;animation-delay:-8s;font-size:2.6rem">🔥</span><span class="floaty m-hide" style="top:22%;left:1%;animation-delay:-3s;font-size:2.6rem">🐐</span><span class="floaty m-hide" style="top:27%;right:5%;animation-delay:-2s;font-size:1.8rem">🪩</span><span class="floaty" style="top:32%;left:5%;animation-delay:-3s;font-size:1.8rem">🥂</span><span class="floaty m-hide" style="top:37%;right:5%;animation-delay:-4s;font-size:2.2rem">💃</span><span class="floaty m-hide" style="top:41%;left:3%;animation-delay:-4s;font-size:2.6rem">🎉</span><span class="floaty" style="top:46%;right:6%;animation-delay:-1s;font-size:2.6rem">✨</span><span class="floaty m-hide" style="top:51%;left:7%;animation-delay:-8s;font-size:2.2rem">💖</span><span class="floaty m-hide" style="top:56%;right:3%;animation-delay:-3s;font-size:3rem">🍾</span><span class="floaty" style="top:61%;left:5%;animation-delay:-1s;font-size:2.6rem">👠</span><span class="floaty m-hide" style="top:65%;right:1%;animation-delay:-4s;font-size:2.6rem">🎀</span><span class="floaty m-hide" style="top:70%;left:9%;animation-delay:-3s;font-size:3rem">💅</span><span class="floaty" style="top:75%;right:7%;animation-delay:-9s;font-size:2.6rem">🎶</span><span class="floaty m-hide" style="top:80%;left:7%;animation-delay:-7s;font-size:2.2rem">🥳</span><span class="floaty m-hide" style="top:85%;right:4%;animation-delay:-4s;font-size:2.6rem">🌸</span><span class="floaty" style="top:89%;left:1%;animation-delay:-1s;font-size:1.8rem">⭐</span><span class="floaty m-hide" style="top:94%;right:8%;animation-delay:-4s;font-size:3rem">🎈</span>
+<!-- ================= HERO ================= -->
+<section id="hero">
+  <p class="eyebrow">27. 11. – 6. 12. 2026</p>
+  <h1>Kačenčin narozeninový měsíc 🎉</h1>
+  <p class="subtitle">30 let, 2 víkendy, nula rozumu. Oficiální narozeniny 4. 12. — ale proč slavit jeden den, když můžeme celý měsíc.</p>
+  <div class="arc">
+    <span>🤠 Poslední rodeo</span>
+    <span>💀 Pohřeb dvacítky</span>
+  </div>
+  <div id="countdown">
+    <div class="box"><div class="num" id="cd-days">–</div><div class="label">dní</div></div>
+    <div class="box"><div class="num" id="cd-hours">–</div><div class="label">hodin</div></div>
+    <div class="box"><div class="num" id="cd-min">–</div><div class="label">minut</div></div>
+    <div class="box"><div class="num" id="cd-sec">–</div><div class="label">sekund</div></div>
+  </div>
+  <div class="hero-ctas">
+    <button class="cta" onclick="document.getElementById('harmonogram').scrollIntoView()">Mrkni na harmonogram ⬇️</button>
+  </div>
+</section>
+
+<!-- ================= VĚNOVÁNÍ ================= -->
+<section id="venovani">
+  <div class="dedication reveal">
+    <p>Kačenko,</p>
+    <p>třicítka tě nezastaví, ale my se o to klidně pokusíme. Připravily jsme ti dva víkendy, jeden pohřeb a nulu rozumu. Jestli u toho někde uroníš slzu, je to dojetím. Nebo vínem.</p>
+    <p class="sign">Tvoje holky 💕<br><span style="font-size:.9rem;">K&amp;K</span></p>
+  </div>
+</section>
+
+<!-- ================= HARMONOGRAM ================= -->
+<section id="harmonogram">
+  <h2>Harmonogram oslav</h2>
+  <p class="section-lead">Dva víkendy, dvě nálady, jedna oslavenkyně. Vyber si, na co dorazíš — nebo přijeď na všechno, respekt.</p>
+  <div class="cards">
+
+    <div class="card morava reveal">
+      <div class="icon">🤠🍷</div>
+      <span class="motto">Poslední rodeo</span>
+      <h3>Morava — Pavlov</h3>
+      <p class="meta"><b>Termín:</b> 27. 11. – 29. 11. 2026</p>
+      <p class="meta"><b>Místo:</b> Pavlov, otevřené sklepy (Pálava)</p>
+      <p class="meta"><b>Organizuje:</b> Kačka</p>
+      <p class="meta">Poslední rodeo s dvacítkou u vína. Klobouky nutnost, rozum zbytečný.</p>
+      <details>
+        <summary>Dress code &amp; co s sebou</summary>
+        <p><b>Dress code:</b> western/kovbojsky — klobouky, kostkované košile, cowboy boty.</p>
+        <ul>
+          <li>Teplé oblečení</li>
+          <li>Pevné boty na sklepy</li>
+          <li><b>Ubytování:</b> Rezidence Pavlov</li>
+        </ul>
+        <button class="ics-btn" onclick="downloadICS('morava','Poslední rodeo — Morava (Pavlov)','20261127','20261130','Rezidence Pavlov, Pavlov','Otevřené sklepy, western dress code. Organizuje Kačka.')">📅 Přidat do kalendáře</button>
+      </details>
+    </div>
+
+    <div class="card praha reveal">
+      <div class="icon">💀🎉</div>
+      <span class="motto">RIP 20's</span>
+      <h3>Praha — oficiální narozeniny</h3>
+      <p class="meta"><b>Termín:</b> 4. 12. – 6. 12. 2026 (4. 12. = narozeniny!)</p>
+      <p class="meta"><b>Místo:</b> Praha</p>
+      <p class="meta"><b>Organizuje:</b> Klára</p>
+      <p class="meta">Symbolický pohřeb dvacítky — "Kozička" + Dlouhá magořina párty. Truchlíme ve stylu.</p>
+      <details>
+        <summary>Dress code &amp; co s sebou</summary>
+        <p><b>Dress code:</b> všichni v černém pohřebním — kromě oslavenkyně, ta zazáří barevně jako hvězda večera.</p>
+        <ul>
+          <li>Černý outfit (klidně i závoj/smuteční doplněk pro efekt)</li>
+          <li><b>Program:</b> WineNot → Kozička → Dlouhá (ulice) 🍷🐐🎉</li>
+        </ul>
+        <button class="ics-btn" onclick="downloadICS('praha','RIP 20\'s — Praha (narozeniny)','20261204','20261207','Praha — WineNot, Kozička, ulice Dlouhá','WineNot → Kozička → Dlouhá magořina párty. Organizuje Klára.')">📅 Přidat do kalendáře</button>
+      </details>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= TIMELINE ŽIVOTA ================= -->
+<section id="timeline">
+  <h2 class="reveal">Kačenčina cesta k třicítce</h2>
+  <p class="section-lead reveal">Třicet let v několika kapitolách. Klikni na fotky a projdi si je.</p>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-content">
+        <span class="timeline-year">Baby Kačenka</span>
+        <p>Zlatá, s babičkou po boku a odjakživa u moře. 💛</p>
+        <div class="timeline-photos">
+          <div class="photo-thumb"><img src="baby2-1.jpg" alt="Baby Kačenka nová 1"></div>
+          <div class="photo-thumb"><img src="baby3-1.jpg" alt="Baby Kačenka malinká 1"></div>
+          <div class="photo-thumb"><img src="baby3-2.jpg" alt="Baby Kačenka malinká 2"></div>
+          <div class="photo-thumb"><img src="baby3-3.jpg" alt="Baby Kačenka malinká 3"></div>
+          <div class="photo-thumb"><img src="baby3-4.jpg" alt="Baby Kačenka malinká 4"></div>
+          <div class="photo-thumb"><img src="baby3-5.jpg" alt="Baby Kačenka malinká 5"></div>
+          <div class="photo-thumb"><img src="baby3-6.jpg" alt="Baby Kačenka malinká 6"></div>
+          <div class="photo-thumb"><img src="baby3-7.jpg" alt="Baby Kačenka malinká 7"></div>
+          <div class="photo-thumb"><img src="baby2-2.jpg" alt="Baby Kačenka nová 2"></div>
+          <div class="photo-thumb"><img src="baby2-3.jpg" alt="Baby Kačenka nová 3"></div>
+          <div class="photo-thumb"><img src="baby2-4.jpg" alt="Baby Kačenka nová 4"></div>
+          <div class="photo-thumb"><img src="baby2-5.jpg" alt="Baby Kačenka nová 5"></div>
+          <div class="photo-thumb"><img src="baby2-6.jpg" alt="Baby Kačenka nová 6"></div>
+          <div class="photo-thumb"><img src="baby2-7.jpg" alt="Baby Kačenka nová 7"></div>
+          <div class="photo-thumb"><img src="baby2-8.jpg" alt="Baby Kačenka nová 8"></div>
+          <div class="photo-thumb"><img src="baby-kacenka-1.jpg" alt="Baby Kačenka 1"></div>
+          <div class="photo-thumb"><img src="baby-kacenka-2.jpg" alt="Baby Kačenka 2"></div>
+          <div class="photo-thumb"><img src="baby-kacenka-3.jpg" alt="Baby Kačenka 3"></div>
+          <div class="photo-thumb"><img src="baby-kacenka-4.jpg" alt="Baby Kačenka 4"></div>
+          <div class="photo-thumb"><img src="baby-kacenka-5.jpg" alt="Baby Kačenka 5"></div>
+          <div class="photo-thumb"><img src="baby-kacenka-6.jpg" alt="Baby Kačenka 6"></div>
+          <div class="photo-thumb"><img src="baby-kacenka-7.jpg" alt="Baby Kačenka 7"></div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-content">
+        <span class="timeline-year">Y2K ikona</span>
+        <p>Éra webkamer, poníků a třpytivého eyelineru. Nulté roky ji formovaly navždy. ✨</p>
+        <div class="timeline-photos">
+          <div class="photo-thumb"><img src="y2k-1.jpg" alt="Y2K ikona 1"></div>
+          <div class="photo-thumb"><img src="y2k-2.jpg" alt="Y2K ikona 2"></div>
+          <div class="photo-thumb"><img src="y2k-3.jpg" alt="Y2K ikona 3"></div>
+          <div class="photo-thumb"><img src="y2k-4.jpg" alt="Y2K ikona 4"></div>
+          <div class="photo-thumb"><img src="y2k-5.jpg" alt="Y2K ikona 5"></div>
+          <div class="photo-thumb"><img src="y2k-6.jpg" alt="Y2K ikona 6"></div>
+          <div class="photo-thumb"><img src="y2k-7.jpg" alt="Y2K ikona 7"></div>
+          <div class="photo-thumb"><img src="y2k-8.jpg" alt="Y2K ikona 8"></div>
+          <div class="photo-thumb"><img src="y2k-9.jpg" alt="Y2K ikona 9"></div>
+          <div class="photo-thumb"><img src="y2k-10.jpg" alt="Y2K ikona 10"></div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-content">
+        <span class="timeline-year">Puberťačka a mejdany</span>
+        <p>Účesy se měnily, grimasy zůstaly. Převleky, zombie nevěsta, holky, kluci a zrcadla v každých záchodech. 😎</p>
+        <div class="timeline-photos">
+          <div class="photo-thumb"><img src="puberta-1.jpg" alt="Puberťačka 1"></div>
+          <div class="photo-thumb"><img src="puberta-2.jpg" alt="Puberťačka 2"></div>
+          <div class="photo-thumb"><img src="puberta-3.jpg" alt="Puberťačka 3"></div>
+          <div class="photo-thumb"><img src="puberta-4.jpg" alt="Puberťačka 4"></div>
+          <div class="photo-thumb"><img src="puberta-5.jpg" alt="Puberťačka 5"></div>
+          <div class="photo-thumb"><img src="puberta-6.jpg" alt="Puberťačka 6"></div>
+          <div class="photo-thumb"><img src="puberta-7.jpg" alt="Puberťačka 7"></div>
+          <div class="photo-thumb"><img src="puberta-8.jpg" alt="Puberťačka 8"></div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-content">
+        <span class="timeline-year">Máma Kačka</span>
+        <p>Nejlepší role v životě. Nejhezčí mimčo a mamina, co to zvládá s lehkostí. 🤍</p>
+        <div class="timeline-photos">
+          <div class="photo-thumb"><img src="materstvi-1.jpg" alt="Máma Kačka 1"></div>
+          <div class="photo-thumb"><img src="materstvi-3.jpg" alt="Máma Kačka 2"></div>
+          <div class="photo-thumb"><img src="materstvi-4.jpg" alt="Máma Kačka 3"></div>
+          <div class="photo-thumb"><img src="materstvi-12.jpg" alt="Máma Kačka 4"></div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-content">
+        <span class="timeline-year">2026</span>
+        <p>30 let, dva víkendy, jedna nezastavitelná Kačka. 🎉</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BINGO ================= -->
+<section id="bingo">
+  <h2 class="reveal">Narozeninové bingo 🎲</h2>
+  <p class="section-lead reveal">Odškrtávej, co se během oslav stane. Pět v řadě a vyhráváš. Klikni na políčko.</p>
+  <p class="bingo-counter" id="bingo-counter"></p>
+  <div id="bingo-board" class="bingo-board reveal"></div>
+  <p id="bingo-msg" class="bingo-msg"></p>
+  <div class="bingo-actions">
+    <button class="ics-btn" id="bingo-shuffle">🔀 Zamíchat</button>
+    <button class="ics-btn" id="bingo-reset">↩️ Vynulovat</button>
+  </div>
+</section>
+
+<!-- ================= MAPA ================= -->
+<section id="mapa">
+  <h2 class="reveal">Kde se to celé odehraje</h2>
+  <p class="section-lead reveal">Dvě zastávky, jedna cesta k třicítce. Klikni na piny pro detaily.</p>
+  <div id="map" class="reveal"></div>
+</section>
+
+<!-- ================= VZPOMÍNKY ================= -->
+<section id="vzpominky">
+  <h2 class="reveal">Sem s tím — nasypte vzpomínky</h2>
+  <p class="section-lead reveal">Nahraj fotku z narozeninového měsíce a hned se tu objeví.</p>
+  <div class="photo-box reveal">
+    <a class="photo-upload-btn" href="https://drive.google.com/drive/folders/1LIB6sD0crQeuSWD3bbCkXtWUP_XD3Zo-" target="_blank" rel="noopener">📷 Nahrát fotky</a>
+    <p id="photo-upload-status">Otevře se sdílená složka — přidej fotky tlačítkem „Nový" → „Nahrání souboru" (nebo je tam přetáhni).</p>
+    <iframe id="drive-gallery" class="drive-gallery" src="https://drive.google.com/embeddedfolderview?id=1LIB6sD0crQeuSWD3bbCkXtWUP_XD3Zo-#grid" loading="lazy"></iframe>
+    <button type="button" class="photo-upload-btn refresh-btn" onclick="var f=document.getElementById('drive-gallery');f.src=f.src;">🔄 Obnovit galerii</button>
+  </div>
+</section>
+
+<!-- ================= BULVÁR ================= -->
+<section id="bulvar">
+  <h2 class="reveal">Kačka v bulváru 📰</h2>
+  <p class="section-lead reveal">Bulvár si nás evidentně splet s někým jiným. Nebo možná ne. Kdo ví — každopádně se z toho už roky nepřestáváme smát.</p>
+  <div class="tabloid-grid">
+    <a class="tabloid-card reveal" href="https://www.extra.cz/robinsonka-katerina-suriakova-prestala-radit-otehotnela-a-vzala-si-statneho-chasnika" target="_blank" rel="noopener">
+      <span class="tabloid-tag">EXTRA.CZ</span>
+      <h3>Robinsonka Kateřina Šuriaková: Přestala řádit, otěhotněla a vzala si statného chasníka</h3>
+      <p>Prý přežila měsíc menstruace na ostrově a pak si vzala „statného chasníka". Zní to nějak povědomě, Kačko? 👀</p>
+      <span class="tabloid-link">Číst celý článek →</span>
+    </a>
+
+    <a class="tabloid-card reveal" href="https://survivor.fandom.com/wiki/Ka%C4%8Dka_%C5%A0uriakov%C3%A1" target="_blank" rel="noopener">
+      <span class="tabloid-tag">SURVIVOR WIKI</span>
+      <h3>Kačka Šuriaková — Robinsonův ostrov</h3>
+      <p>19letá maturantka z Prahy, nejmladší soutěžící v sezóně, umístila se na 16. místě. Ostrov prý brala jako dovolenou. Náhoda? My tomu nevěříme.</p>
+      <span class="tabloid-link">Číst celý profil →</span>
+    </a>
+    <!-- [DOPLNIT] sem přidávej další "zmínky" o Kačce ve stejném formátu (zkopíruj kartu výše a uprav odkaz/text) -->
+  </div>
+</section>
+
+<footer>
+  <div class="bye reveal">Uvidíme se na sklepě i na pohřbu dvacítky 🥂</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+  // ---------- POPUP + CONFETTI + SPOTIFY (iFrame API — umí autoplay + seek) ----------
+  // TIP: pokud pošleš jiný/přesnější Spotify odkaz na "Když jdou holky ven",
+  // stačí sem vložit její track ID (poslední část URL za /track/).
+  const SPOTIFY_TRACK_ID = '0tezUND2y4BBe2yp8O6g4j';
+  const SPOTIFY_START_SECONDS = 19; // 0:19
+
+  let spotifyIframeAPI = null;
+  let spotifyWantsStart = false;
+
+  window.onSpotifyIframeApiReady = (IFrameAPI) => {
+    spotifyIframeAPI = IFrameAPI;
+    if (spotifyWantsStart) startSpotifyPlayer();
+  };
+
+  function startSpotifyPlayer(){
+    const element = document.getElementById('spotify-float');
+    element.innerHTML = '';
+    const options = { uri: 'spotify:track:' + SPOTIFY_TRACK_ID, width: '100%', height: 152 };
+    spotifyIframeAPI.createController(element, options, (EmbedController) => {
+      EmbedController.addListener('ready', () => {
+        EmbedController.play();
+      });
+      EmbedController.addListener('playback_started', () => {
+        EmbedController.seek(SPOTIFY_START_SECONDS);
+      });
+    });
+  }
+
+  document.getElementById('consent-btn').addEventListener('click', function(){
+    document.getElementById('popup-overlay').remove();
+    document.body.classList.remove('locked');
+    launchConfetti();
+
+    // vše se spustí přímo v tomto click handleru (v rámci gesta uživatele),
+    // aby prohlížeč dovolil autoplay se zvukem — nic dalšího blokovat nebude
+    document.getElementById('spotify-float').classList.add('show');
+    if (spotifyIframeAPI) {
+      startSpotifyPlayer();
+    } else {
+      spotifyWantsStart = true; // API skript ještě nedoběhl — spustí se, jakmile bude ready
+    }
+  });
+
+  function launchConfetti(){
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const colors = ['#ff2f92','#ffcf3f','#ffd6ec','#c8006b','#ffffff'];
+    const pieces = Array.from({length:180}, () => ({
+      x: Math.random()*canvas.width,
+      y: -20 - Math.random()*canvas.height*0.5,
+      r: 5 + Math.random()*6,
+      c: colors[Math.floor(Math.random()*colors.length)],
+      vy: 2 + Math.random()*4,
+      vx: -2 + Math.random()*4,
+      rot: Math.random()*360,
+      vr: -6 + Math.random()*12
+    }));
+    let frames = 0;
+    function tick(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      pieces.forEach(p=>{
+        p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+        ctx.save();
+        ctx.translate(p.x,p.y);
+        ctx.rotate(p.rot*Math.PI/180);
+        ctx.fillStyle = p.c;
+        ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*0.6);
+        ctx.restore();
+      });
+      frames++;
+      if(frames < 220){
+        requestAnimationFrame(tick);
+      } else {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+      }
+    }
+    tick();
+  }
+
+  window.addEventListener('resize', ()=>{
+    const canvas = document.getElementById('confetti-canvas');
+    if(canvas){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  });
+
+  // ---------- COUNTDOWN ----------
+  const target = new Date('2026-12-04T00:00:00');
+  function updateCountdown(){
+    const now = new Date();
+    let diff = target - now;
+    if(diff < 0) diff = 0;
+    const d = Math.floor(diff/ (1000*60*60*24));
+    const h = Math.floor((diff/(1000*60*60)) % 24);
+    const m = Math.floor((diff/(1000*60)) % 60);
+    const s = Math.floor((diff/1000) % 60);
+    document.getElementById('cd-days').textContent = d;
+    document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-min').textContent = String(m).padStart(2,'0');
+    document.getElementById('cd-sec').textContent = String(s).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ---------- MAP ----------
+  const map = L.map('map', {scrollWheelZoom:false}).setView([49.75,15.4], 7);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri',
+    maxZoom: 18
+  }).addTo(map);
+
+  const pinkIcon = L.divIcon({
+    html: '<div style="background:#ff2f92;width:22px;height:22px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,.3);"></div>',
+    className: '',
+    iconSize: [22,22],
+    iconAnchor: [11,22]
+  });
+
+  const stops = [
+    {name:'Pavlov — Poslední rodeo', date:'27.–29. 11. 2026', organizer:'Kačka', coords:[48.8494,16.6822]},
+    {name:'Praha — RIP 20\'s', date:'4.–6. 12. 2026', organizer:'Klára', coords:[50.0755,14.4378]}  ];
+
+  stops.forEach(s=>{
+    const gmaps = 'https://www.google.com/maps/search/?api=1&query=' + s.coords[0] + ',' + s.coords[1];
+    L.marker(s.coords, {icon:pinkIcon}).addTo(map)
+      .bindPopup('<b>'+s.name+'</b><br>'+s.date+'<br>Organizuje: '+s.organizer+'<br><a href="'+gmaps+'" target="_blank" rel="noopener">Zobrazit na Google Maps</a>');
+  });
+
+  // ---------- BINGO ----------
+  const bingoItems = [
+    '🛏️ Musí se vyklidit ložnice, Kačka má plány 😏','💋 Kačka líbá Radiátora','🐐 Kačka ukazuje kozy (a Kozička taky)','🍷 „Jen jedno" = hlasitý smích ve 4 ráno',
+    '🌿 Kačka spadla do levandulí','🎯 Kačka balí random chlapa','🤬 Kačka nadává na zkurvený pražačky, co si sem jdou akorát zašukat','🏇 Zazní „Když jdou holky ven" a nastane chaos',
+    '🚽 Kačka potřebuje kadit','🔥 Kačka dělá sexy tanec v kulturáku','🤠 Kovbojský klobouk skončí na cizím chlapovi','⚰️ Pohřeb dvacítky: smuteční hosté se rozpláčou smíchy',
+    '📱 Kdo ztratil telefon? Všichni.','🥃 Kačka si dává slivovici','🎻 Kačka hraje na housle','💃 Kačka tančí v Zaječí',
+    '🐓 Snídaně v 15:00 s „už nikdy víc"','📍 Kačka v Haštalský','🤮 Kačka zvrací','😘 Kačka se líbá s chlapem',
+    '🪩 Dlouhá magořina jede, dokud se nezavře všechno','😭 Uroníš slzu, nebo čtyři, a pak vymyslíš další přípitek','🎶 Kačka zpívá Vysoký Jalovec','🤳 Kačka si dělá selfie s úplně cizím člověkem'
+  ];
+  const bingoBoard = document.getElementById('bingo-board');
+  const bingoMsg = document.getElementById('bingo-msg');
+  let bingoCells = [];
+  function buildBingo(shuffle){
+    const items = bingoItems.slice();
+    if (shuffle) items.sort(() => Math.random() - 0.5);
+    items.splice(12, 0, 'FREE ⭐ Kačka je dnes královna');
+    bingoBoard.innerHTML = '';
+    bingoMsg.textContent = '';
+    document.getElementById('bingo-counter').textContent = '0 / 24 splněno';
+    bingoCells = items.map((t, i) => {
+      const b = document.createElement('button');
+      b.className = 'bingo-cell' + (i === 12 ? ' free on' : '');
+      b.textContent = t;
+      if (i !== 12) b.addEventListener('click', () => { b.classList.toggle('on'); checkBingo(); });
+      bingoBoard.appendChild(b);
+      return b;
+    });
+  }
+  function bingoCrazy(){
+    document.body.classList.add('shake');
+    setTimeout(() => document.body.classList.remove('shake'), 600);
+    const em = ['🍷','🥂','🎉','💃','🤠','🐐','💖','🔥','⭐','🎂','🪩'];
+    for (let i = 0; i < 40; i++) {
+      const e = document.createElement('div');
+      e.className = 'emoji-rain';
+      e.textContent = em[Math.floor(Math.random()*em.length)];
+      e.style.left = Math.random()*100 + 'vw';
+      e.style.animationDuration = (2 + Math.random()*2.5) + 's';
+      e.style.animationDelay = (Math.random()*0.8) + 's';
+      document.body.appendChild(e);
+      setTimeout(() => e.remove(), 5500);
+    }
+  }
+  function checkBingo(){
+    const on = i => bingoCells[i].classList.contains('on');
+    bingoCells.forEach(c => c.classList.remove('win'));
+    const lines = [];
+    for (let r = 0; r < 5; r++) lines.push([0,1,2,3,4].map(c => r*5 + c));
+    for (let c = 0; c < 5; c++) lines.push([0,1,2,3,4].map(r => r*5 + c));
+    lines.push([0,6,12,18,24], [4,8,12,16,20]);
+    const wins = lines.filter(l => l.every(on));
+    wins.forEach(l => l.forEach(i => bingoCells[i].classList.add('win')));
+    const done = bingoCells.filter(c => c.classList.contains('on') && !c.classList.contains('free')).length;
+    document.getElementById('bingo-counter').textContent = done + ' / 24 splněno';
+    if (wins.length) {
+      const was = bingoMsg.dataset.won;
+      bingoMsg.textContent = '🎉🔥 BINGO!!! Dej to hned do skupinovky! 🔥🎉';
+      if (!was) { bingoMsg.dataset.won = '1'; launchConfetti(); bingoCrazy(); }
+    } else {
+      bingoMsg.textContent = '';
+      delete bingoMsg.dataset.won;
+    }
+  }
+  document.getElementById('bingo-shuffle').addEventListener('click', () => { delete bingoMsg.dataset.won; buildBingo(true); });
+  document.getElementById('bingo-reset').addEventListener('click', () => { delete bingoMsg.dataset.won; buildBingo(false); });
+  buildBingo(false);
+
+  // ---------- STICKY NAV ----------
+  const siteNav = document.getElementById('site-nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > window.innerHeight * 0.6) {
+      siteNav.classList.add('show');
+    } else {
+      siteNav.classList.remove('show');
+    }
+  });
+
+  // ---------- SCROLL REVEAL ----------
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  // ---------- LIGHTBOX (zvětšení + procházení fotek) ----------
+  const lightbox = document.getElementById('lightbox-overlay');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxPrev = document.getElementById('lightbox-prev');
+  const lightboxNext = document.getElementById('lightbox-next');
+  let lightboxGroup = [];
+  let lightboxIndex = 0;
+
+  function showLightboxIndex(i){
+    if (!lightboxGroup.length) return;
+    lightboxIndex = (i + lightboxGroup.length) % lightboxGroup.length;
+    const img = lightboxGroup[lightboxIndex];
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt || '';
+    const multi = lightboxGroup.length > 1;
+    lightboxPrev.style.display = multi ? 'block' : 'none';
+    lightboxNext.style.display = multi ? 'block' : 'none';
+  }
+
+  document.addEventListener('click', (e) => {
+    const img = e.target.closest('.photo-thumb img, .gallery-grid .photo img');
+    if (img) {
+      const container = img.closest('.timeline-photos, .gallery-grid');
+      lightboxGroup = Array.from((container || document).querySelectorAll('.photo-thumb img, .gallery-grid .photo img'));
+      showLightboxIndex(lightboxGroup.indexOf(img));
+      lightbox.classList.add('show');
+    }
+  });
+
+  function closeLightbox(){ lightbox.classList.remove('show'); lightboxImg.src=''; }
+  lightbox.addEventListener('click', closeLightbox);
+  document.getElementById('lightbox-close').addEventListener('click', (e) => { e.stopPropagation(); closeLightbox(); });
+  lightboxPrev.addEventListener('click', (e) => { e.stopPropagation(); showLightboxIndex(lightboxIndex - 1); });
+  lightboxNext.addEventListener('click', (e) => { e.stopPropagation(); showLightboxIndex(lightboxIndex + 1); });
+  lightboxImg.addEventListener('click', (e) => e.stopPropagation());
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('show')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') showLightboxIndex(lightboxIndex + 1);
+    if (e.key === 'ArrowLeft') showLightboxIndex(lightboxIndex - 1);
+  });
+
+  // ---------- PŘIDAT DO KALENDÁŘE (.ics) ----------
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function icsTimestamp(){
+    const d = new Date();
+    return d.getUTCFullYear() + pad(d.getUTCMonth()+1) + pad(d.getUTCDate()) + 'T' + pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + pad(d.getUTCSeconds()) + 'Z';
+  }
+  function icsEscape(str){
+    return String(str).replace(/([,;])/g, '\\$1').replace(/\n/g, '\\n');
+  }
+  function downloadICS(uid, title, startDate, endDate, location, description){
+    const lines = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Kacenka30//CZ',
+      'BEGIN:VEVENT',
+      'UID:' + uid + '-' + Date.now() + '@kacenka30',
+      'DTSTAMP:' + icsTimestamp(),
+      'DTSTART;VALUE=DATE:' + startDate,
+      'DTEND;VALUE=DATE:' + endDate,
+      'SUMMARY:' + icsEscape(title),
+      'LOCATION:' + icsEscape(location),
+      'DESCRIPTION:' + icsEscape(description),
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ];
+    const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = uid + '.ics';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+</script>
+</body>
+</html>
